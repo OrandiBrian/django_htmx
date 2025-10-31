@@ -2,12 +2,16 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Contact
 from django.db.models import Q
+from contacts.forms import ContactForm
 import time
 
 @login_required
 def index(request):
     contacts = request.user.contacts.all().order_by("-created_at")
-    context = {'contacts': contacts}
+    context = {
+        'contacts': contacts,
+        'form': ContactForm()
+        }
     return render(request, 'contacts.html', context)
 
 @login_required
